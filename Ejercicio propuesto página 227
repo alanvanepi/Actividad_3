@@ -1,0 +1,206 @@
+class Mascota:
+    def __init__(self, nombre, edad, color):
+        self.nombre = nombre
+        self.edad = edad
+        self.color = color
+    
+    def describir(self):
+        return f"{self.nombre} ({self.edad} años, color {self.color})"
+
+class Perro(Mascota):
+    def __init__(self, nombre, edad, color, peso, muerde):
+        super().__init__(nombre, edad, color)
+        self.peso = peso
+        self.muerde = muerde
+    
+    @staticmethod
+    def sonido():
+        print("Los perros ladran")
+    
+    def describir(self):
+        return f"{super().describir()}, Peso: {self.peso}kg, {'Muerde' if self.muerde else 'No muerde'}"
+
+class Gato(Mascota):
+    def __init__(self, nombre, edad, color, altura_salto, longitud_salto):
+        super().__init__(nombre, edad, color)
+        self.altura_salto = altura_salto
+        self.longitud_salto = longitud_salto
+    
+    @staticmethod
+    def sonido():
+        print("Los gatos maúllan y ronronean")
+    
+    def describir(self):
+        return f"{super().describir()}, Salto: {self.altura_salto}m altura, {self.longitud_salto}m longitud"
+
+# Razas de perros pequeños
+class Pequeno(Perro):
+    def __init__(self, nombre, edad, color, peso, muerde, raza):
+        super().__init__(nombre, edad, color, peso, muerde)
+        self.raza = raza
+    
+    def describir(self):
+        return f"{super().describir()}, Raza: {self.raza} (pequeño)"
+
+class Caniche(Pequeno):
+    def __init__(self, nombre, edad, color, peso, muerde):
+        super().__init__(nombre, edad, color, peso, muerde, "Caniche")
+
+class Yorkshire(Pequeno):
+    def __init__(self, nombre, edad, color, peso, muerde):
+        super().__init__(nombre, edad, color, peso, muerde, "Yorkshire Terrier")
+
+class Schnauzer(Pequeno):
+    def __init__(self, nombre, edad, color, peso, muerde):
+        super().__init__(nombre, edad, color, peso, muerde, "Schnauzer")
+
+class Chihuahua(Pequeno):
+    def __init__(self, nombre, edad, color, peso, muerde):
+        super().__init__(nombre, edad, color, peso, muerde, "Chihuahua")
+
+# Razas de perros medianos
+class Mediano(Perro):
+    def __init__(self, nombre, edad, color, peso, muerde, raza):
+        super().__init__(nombre, edad, color, peso, muerde)
+        self.raza = raza
+    
+    def describir(self):
+        return f"{super().describir()}, Raza: {self.raza} (mediano)"
+
+class Collie(Mediano):
+    def __init__(self, nombre, edad, color, peso, muerde):
+        super().__init__(nombre, edad, color, peso, muerde, "Collie")
+
+class Dalmata(Mediano):
+    def __init__(self, nombre, edad, color, peso, muerde):
+        super().__init__(nombre, edad, color, peso, muerde, "Dálmata")
+
+class Bulldog(Mediano):
+    def __init__(self, nombre, edad, color, peso, muerde):
+        super().__init__(nombre, edad, color, peso, muerde, "Bulldog")
+
+class Galgo(Mediano):
+    def __init__(self, nombre, edad, color, peso, muerde):
+        super().__init__(nombre, edad, color, peso, muerde, "Galgo")
+
+class Sabueso(Mediano):
+    def __init__(self, nombre, edad, color, peso, muerde):
+        super().__init__(nombre, edad, color, peso, muerde, "Sabueso")
+
+# Razas de perros grandes
+class Grande(Perro):
+    def __init__(self, nombre, edad, color, peso, muerde, raza):
+        super().__init__(nombre, edad, color, peso, muerde)
+        self.raza = raza
+    
+    def describir(self):
+        return f"{super().describir()}, Raza: {self.raza} (grande)"
+
+class PastorAleman(Grande):
+    def __init__(self, nombre, edad, color, peso, muerde):
+        super().__init__(nombre, edad, color, peso, muerde, "Pastor Alemán")
+
+class Doberman(Grande):
+    def __init__(self, nombre, edad, color, peso, muerde):
+        super().__init__(nombre, edad, color, peso, muerde, "Doberman")
+
+class Rottweiler(Grande):
+    def __init__(self, nombre, edad, color, peso, muerde):
+        super().__init__(nombre, edad, color, peso, muerde, "Rottweiler")
+
+# Razas de gatos sin pelo
+class SinPelo(Gato):
+    def __init__(self, nombre, edad, color, altura_salto, longitud_salto, raza):
+        super().__init__(nombre, edad, color, altura_salto, longitud_salto)
+        self.raza = raza
+    
+    def describir(self):
+        return f"{super().describir()}, Raza: {self.raza} (sin pelo)"
+
+class Esfinge(SinPelo):
+    def __init__(self, nombre, edad, color, altura_salto, longitud_salto):
+        super().__init__(nombre, edad, color, altura_salto, longitud_salto, "Esfinge")
+
+class Elfo(SinPelo):
+    def __init__(self, nombre, edad, color, altura_salto, longitud_salto):
+        super().__init__(nombre, edad, color, altura_salto, longitud_salto, "Elfo")
+
+class Donskoy(SinPelo):
+    def __init__(self, nombre, edad, color, altura_salto, longitud_salto):
+        super().__init__(nombre, edad, color, altura_salto, longitud_salto, "Donskoy")
+
+# Razas de gatos de pelo largo
+class PeloLargo(Gato):
+    def __init__(self, nombre, edad, color, altura_salto, longitud_salto, raza):
+        super().__init__(nombre, edad, color, altura_salto, longitud_salto)
+        self.raza = raza
+    
+    def describir(self):
+        return f"{super().describir()}, Raza: {self.raza} (pelo largo)"
+
+class Angora(PeloLargo):
+    def __init__(self, nombre, edad, color, altura_salto, longitud_salto):
+        super().__init__(nombre, edad, color, altura_salto, longitud_salto, "Angora")
+
+class Himalayo(PeloLargo):
+    def __init__(self, nombre, edad, color, altura_salto, longitud_salto):
+        super().__init__(nombre, edad, color, altura_salto, longitud_salto, "Himalayo")
+
+class Balines(PeloLargo):
+    def __init__(self, nombre, edad, color, altura_salto, longitud_salto):
+        super().__init__(nombre, edad, color, altura_salto, longitud_salto, "Balinés")
+
+class Somali(PeloLargo):
+    def __init__(self, nombre, edad, color, altura_salto, longitud_salto):
+        super().__init__(nombre, edad, color, altura_salto, longitud_salto, "Somalí")
+
+# Razas de gatos de pelo corto
+class PeloCorto(Gato):
+    def __init__(self, nombre, edad, color, altura_salto, longitud_salto, raza):
+        super().__init__(nombre, edad, color, altura_salto, longitud_salto)
+        self.raza = raza
+    
+    def describir(self):
+        return f"{super().describir()}, Raza: {self.raza} (pelo corto)"
+
+class AzulRuso(PeloCorto):
+    def __init__(self, nombre, edad, color, altura_salto, longitud_salto):
+        super().__init__(nombre, edad, color, altura_salto, longitud_salto, "Azul Ruso")
+
+class Britanico(PeloCorto):
+    def __init__(self, nombre, edad, color, altura_salto, longitud_salto):
+        super().__init__(nombre, edad, color, altura_salto, longitud_salto, "Británico")
+
+class Manx(PeloCorto):
+    def __init__(self, nombre, edad, color, altura_salto, longitud_salto):
+        super().__init__(nombre, edad, color, altura_salto, longitud_salto, "Manx")
+
+class DevonRex(PeloCorto):
+    def __init__(self, nombre, edad, color, altura_salto, longitud_salto):
+        super().__init__(nombre, edad, color, altura_salto, longitud_salto, "Devon Rex")
+
+# Ejemplo de uso
+def main():
+    # Crear algunas mascotas
+    mascotas = [
+        Chihuahua("Pepe", 2, "marrón", 3.5, False),
+        PastorAleman("Rex", 4, "negro y fuego", 32, True),
+        Angora("Luna", 3, "blanco", 1.8, 2.5),
+        Esfinge("Cleo", 1, "rosado", 1.2, 1.8),
+        Dalmata("Manchas", 5, "blanco con negro", 25, False),
+        DevonRex("Simba", 2, "marrón", 1.5, 2.0)
+    ]
+    
+    # Mostrar información de todas las mascotas
+    print("=== TIENDA DE MASCOTAS ===")
+    for mascota in mascotas:
+        print(mascota.describir())
+    
+    # Mostrar sonidos característicos
+    print("\nSonidos característicos:")
+    Perro.sonido()
+    Gato.sonido()
+
+if __name__ == "__main__":
+
+    main()
