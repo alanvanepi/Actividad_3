@@ -1,0 +1,72 @@
+class Profesor:
+    def __init__(self, nombre, especialidad):
+        self.nombre = nombre
+        self.especialidad = especialidad
+    
+    def mostrar_informacion(self):
+        print(f"Profesor: {self.nombre}")
+        print(f"Especialidad: {self.especialidad}")
+    
+    def calcular_salario(self, horas_trabajadas):
+        return horas_trabajadas * 25000  # Tarifa base por hora
+
+class ProfesorTitular(Profesor):
+    def __init__(self, nombre, especialidad, anos_experiencia):
+        super().__init__(nombre, especialidad)
+        self.anos_experiencia = anos_experiencia
+    
+    def mostrar_informacion(self):
+        print(f"Profesor Titular: {self.nombre}")
+        print(f"Especialidad: {self.especialidad}")
+        print(f"Años de experiencia: {self.anos_experiencia}")
+    
+    def calcular_salario(self, horas_trabajadas):
+        salario_base = super().calcular_salario(horas_trabajadas)
+        bono_experiencia = self.anos_experiencia * 50000
+        return salario_base + bono_experiencia
+
+# Función polimórfica que trabaja con cualquier tipo de Profesor
+def procesar_profesor(profesor, horas):
+    print("\n--- Procesando profesor ---")
+    profesor.mostrar_informacion()
+    salario = profesor.calcular_salario(horas)
+    print(f"Salario calculado: ${salario:,.2f}")
+
+def main():
+    # Crear instancias
+    profesor1 = Profesor("Carlos Méndez", "Matemáticas")
+    profesor_titular1 = ProfesorTitular("Ana López", "Física", 10)
+    
+    # Llamada directa a métodos
+    print("--- Llamadas directas ---")
+    profesor1.mostrar_informacion()
+    print(f"Salario: ${profesor1.calcular_salario(40):,.2f}\n")
+    
+    profesor_titular1.mostrar_informacion()
+    print(f"Salario: ${profesor_titular1.calcular_salario(40):,.2f}\n")
+    
+    # Demostración de polimorfismo
+    print("--- Demostración de polimorfismo ---")
+    
+    # Usando la misma variable para referenciar diferentes tipos
+    profesor_polimorfico = profesor1
+    procesar_profesor(profesor_polimorfico, 40)
+    
+    profesor_polimorfico = profesor_titular1
+    procesar_profesor(profesor_polimorfico, 40)
+    
+    # Lista polimórfica
+    print("\n--- Lista polimórfica ---")
+    profesores = [
+        Profesor("Juan Pérez", "Historia"),
+        ProfesorTitular("María García", "Química", 5),
+        Profesor("Luisa Fernández", "Literatura"),
+        ProfesorTitular("Pedro Sánchez", "Biología", 15)
+    ]
+    
+    for idx, profesor in enumerate(profesores, 1):
+        print(f"\nProfesor #{idx}:")
+        procesar_profesor(profesor, 35 + idx*5)
+
+if __name__ == "__main__":
+    main()
