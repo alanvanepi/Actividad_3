@@ -1,0 +1,124 @@
+class Cuenta:
+    def __init__(self, saldo, tasa_anual):
+        self._saldo = saldo
+        self._numero_consignaciones = 0
+        self._numero_retiros = 0
+        self._tasa_anual = tasa_anual
+        self._comision_mensual = 0.0
+
+    def consignar(self, cantidad):
+        self._saldo += cantidad
+        self._numero_consignaciones += 1
+        return True
+
+    def retirar(self, cantidad):
+        if cantidad <= self._saldo:
+            self._saldo -= cantidad
+            self._numero_retiros += 1
+            return True
+        return False
+
+    def calcular_interes_mensual(self):
+        tasa_mensual = self._tasa_anual / 12 / 100
+        interes_mensual = self._saldo * tasa_mensual
+        self._saldo += interes_mensual
+
+    def extracto_mensual(self):
+        self._saldo -= self._comision_mensual
+        self.calcular_interes_mensual()
+
+    def imprimir(self):
+        print(f"Saldo: ${self._saldo:,.2f}")
+        print(f"Comisión mensual: ${self._comision_mensual:,.2f}")
+        print(f"Transacciones realizadas: {self._numero_consignaciones + self._numero_retiros}")
+
+class CuentaAhorros(Cuenta):
+    def __init__(self, saldo, tasa_anual):
+        super().__init__(saldo, tasa_anual)
+        self._activa = saldo >= 10000
+
+    def consignar(self, cantidad):
+        if self._activa:
+            return super().consignar(cantidad)
+        print("No se puede consignar. Cuenta inactiva.")
+        return False
+
+    def retirar(self, cantidad):
+        if self._activa:
+            return super().retirar(cantidad)
+        print("No se puede retirar. Cuenta inactiva.")
+        return False
+
+    def extracto_mensual(self):
+        if self._numero_retiros > 4:
+            self._comision_mensual = (self._numero_retiros - 4) * 1000
+        super().extracto_mensual()
+        self._activa = self._saldo >= 10000
+
+    def imprimir(self):
+        print("*** Cuenta de Ahorros ***")
+        super().imprimir()
+        print(f"Estado: {'Activa' if self._activa else 'Inactiva'}")
+
+class CuentaCorriente(Cuenta):
+    def __init__(self, saldo, tasa_anual):
+        super().__init__(saldo, tasa_anual)
+        self._sobregiro = 0.0
+
+    def retirar(self, cantidad):
+        if cantidad <= self._saldo:
+            self._saldo -= cantidad
+        else:
+            self._sobregiro = cantidad - self._saldo
+            self._saldo = 0
+        self._numero_retiros += 1
+        return True
+
+    def consignar(self, cantidad):
+        if self._sobregiro > 0:
+            if cantidad <= self._sobregiro:
+                self._sobregiro -= cantidad
+            else:
+                cantidad -= self._sobregiro
+                self._sobregiro = 0
+                self._saldo += cantidad
+        else:
+            self._saldo += cantidad
+        self._numero_consignaciones += 1
+        return True
+
+    def extracto_mensual(self):
+        super().extracto_mensual()
+
+    def imprimir(self):
+        print("*** Cuenta Corriente ***")
+        super().imprimir()
+        print(f"Sobregiro: ${self._sobregiro:,.2f}")
+
+# Método main para probar la implementación
+def main():
+    # Crear una cuenta de ahorros
+    cuenta_ahorros = CuentaAhorros(15000, 1.5)
+    
+    print("\n--- Operaciones con Cuenta de Ahorros ---")
+    cuenta_ahorros.consignar(2000)
+    cuenta_ahorros.retirar(5000)
+    cuenta_ahorros.retirar(2000)
+    cuenta_ahorros.retirar(1000)
+    cuenta_ahorros.retirar(1500)
+    cuenta_ahorros.retirar(500)  # Este retiro adicional generará comisión
+    cuenta_ahorros.extracto_mensual()
+    cuenta_ahorros.imprimir()
+    
+    # Crear una cuenta corriente
+    cuenta_corriente = CuentaCorriente(5000, 1.0)
+    
+    print("\n--- Operaciones con Cuenta Corriente ---")
+    cuenta_corriente.retirar(6000)  # Genera sobregiro
+    cuenta_corriente.consignar(2000)  # Reduce el sobregiro
+    cuenta_corriente.consignar(3000)  # Elimina sobregiro y aumenta saldo
+    cuenta_corriente.extracto_mensual()
+    cuenta_corriente.imprimir()
+
+if __name__ == "__main__":
+    main()
