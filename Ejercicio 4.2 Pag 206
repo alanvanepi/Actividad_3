@@ -1,0 +1,181 @@
+class Inmueble:
+    def __init__(self, id_inmobiliario, area, direccion):
+        self._id_inmobiliario = id_inmobiliario
+        self._area = area
+        self._direccion = direccion
+
+    def calcular_precio(self):
+        raise NotImplementedError("Este método debe ser implementado por las subclases")
+
+    def mostrar_informacion(self):
+        print(f"ID: {self._id_inmobiliario}")
+        print(f"Área: {self._area} m²")
+        print(f"Dirección: {self._direccion}")
+
+class InmuebleVivienda(Inmueble):
+    def __init__(self, id_inmobiliario, area, direccion, num_habitaciones, num_banos):
+        super().__init__(id_inmobiliario, area, direccion)
+        self._num_habitaciones = num_habitaciones
+        self._num_banos = num_banos
+
+    def mostrar_informacion(self):
+        super().mostrar_informacion()
+        print(f"Habitaciones: {self._num_habitaciones}")
+        print(f"Baños: {self._num_banos}")
+
+class Casa(InmuebleVivienda):
+    def __init__(self, id_inmobiliario, area, direccion, num_habitaciones, num_banos, num_pisos):
+        super().__init__(id_inmobiliario, area, direccion, num_habitaciones, num_banos)
+        self._num_pisos = num_pisos
+
+    def mostrar_informacion(self):
+        super().mostrar_informacion()
+        print(f"Pisos: {self._num_pisos}")
+
+class CasaRural(Casa):
+    VALOR_METRO = 1500000
+
+    def __init__(self, id_inmobiliario, area, direccion, num_habitaciones, num_banos, num_pisos, distancia_cabecera, altitud):
+        super().__init__(id_inmobiliario, area, direccion, num_habitaciones, num_banos, num_pisos)
+        self._distancia_cabecera = distancia_cabecera
+        self._altitud = altitud
+
+    def calcular_precio(self):
+        return self._area * self.VALOR_METRO
+
+    def mostrar_informacion(self):
+        super().mostrar_informacion()
+        print(f"Distancia a cabecera: {self._distancia_cabecera} km")
+        print(f"Altitud: {self._altitud} msnm")
+        print(f"Precio: ${self.calcular_precio():,}")
+
+class CasaUrbana(Casa):
+    def __init__(self, id_inmobiliario, area, direccion, num_habitaciones, num_banos, num_pisos, conjunto_cerrado):
+        super().__init__(id_inmobiliario, area, direccion, num_habitaciones, num_banos, num_pisos)
+        self._conjunto_cerrado = conjunto_cerrado
+
+class CasaConjuntoCerrado(CasaUrbana):
+    VALOR_METRO = 2500000
+
+    def __init__(self, id_inmobiliario, area, direccion, num_habitaciones, num_banos, num_pisos, valor_administracion, tiene_areas_comunes):
+        super().__init__(id_inmobiliario, area, direccion, num_habitaciones, num_banos, num_pisos, True)
+        self._valor_administracion = valor_administracion
+        self._tiene_areas_comunes = tiene_areas_comunes
+
+    def calcular_precio(self):
+        return self._area * self.VALOR_METRO
+
+    def mostrar_informacion(self):
+        super().mostrar_informacion()
+        print(f"Valor administración: ${self._valor_administracion:,}")
+        print(f"Áreas comunes: {'Sí' if self._tiene_areas_comunes else 'No'}")
+        print(f"Precio: ${self.calcular_precio():,}")
+
+class CasaIndependiente(CasaUrbana):
+    VALOR_METRO = 3000000
+
+    def __init__(self, id_inmobiliario, area, direccion, num_habitaciones, num_banos, num_pisos):
+        super().__init__(id_inmobiliario, area, direccion, num_habitaciones, num_banos, num_pisos, False)
+
+    def calcular_precio(self):
+        return self._area * self.VALOR_METRO
+
+    def mostrar_informacion(self):
+        super().mostrar_informacion()
+        print(f"Precio: ${self.calcular_precio():,}")
+
+class Apartamento(InmuebleVivienda):
+    def __init__(self, id_inmobiliario, area, direccion, num_habitaciones, num_banos, valor_administracion):
+        super().__init__(id_inmobiliario, area, direccion, num_habitaciones, num_banos)
+        self._valor_administracion = valor_administracion
+
+    def mostrar_informacion(self):
+        super().mostrar_informacion()
+        print(f"Valor administración: ${self._valor_administracion:,}")
+
+class Apartaestudio(Apartamento):
+    VALOR_METRO = 1500000
+
+    def __init__(self, id_inmobiliario, area, direccion, num_banos, valor_administracion):
+        super().__init__(id_inmobiliario, area, direccion, 1, num_banos, valor_administracion)
+
+    def calcular_precio(self):
+        return self._area * self.VALOR_METRO
+
+    def mostrar_informacion(self):
+        super().mostrar_informacion()
+        print(f"Precio: ${self.calcular_precio():,}")
+
+class ApartamentoFamiliar(Apartamento):
+    VALOR_METRO = 2000000
+
+    def __init__(self, id_inmobiliario, area, direccion, num_habitaciones, num_banos, valor_administracion):
+        super().__init__(id_inmobiliario, area, direccion, num_habitaciones, num_banos, valor_administracion)
+
+    def calcular_precio(self):
+        return self._area * self.VALOR_METRO
+
+    def mostrar_informacion(self):
+        super().mostrar_informacion()
+        print(f"Precio: ${self.calcular_precio():,}")
+
+class Local(Inmueble):
+    def __init__(self, id_inmobiliario, area, direccion, localizacion):
+        super().__init__(id_inmobiliario, area, direccion)
+        self._localizacion = localizacion
+
+    def mostrar_informacion(self):
+        super().mostrar_informacion()
+        print(f"Localización: {'Interno' if self._localizacion else 'Da a la calle'}")
+
+class LocalComercial(Local):
+    VALOR_METRO = 3000000
+
+    def __init__(self, id_inmobiliario, area, direccion, localizacion, centro_comercial):
+        super().__init__(id_inmobiliario, area, direccion, localizacion)
+        self._centro_comercial = centro_comercial
+
+    def calcular_precio(self):
+        return self._area * self.VALOR_METRO
+
+    def mostrar_informacion(self):
+        super().mostrar_informacion()
+        print(f"Centro comercial: {self._centro_comercial}")
+        print(f"Precio: ${self.calcular_precio():,}")
+
+class Oficina(Local):
+    VALOR_METRO = 3500000
+
+    def __init__(self, id_inmobiliario, area, direccion, localizacion, es_gobierno):
+        super().__init__(id_inmobiliario, area, direccion, localizacion)
+        self._es_gobierno = es_gobierno
+
+    def calcular_precio(self):
+        return self._area * self.VALOR_METRO
+
+    def mostrar_informacion(self):
+        super().mostrar_informacion()
+        print(f"Tipo: {'Gobierno' if self._es_gobierno else 'Privada'}")
+        print(f"Precio: ${self.calcular_precio():,}")
+
+# Ejemplo de uso
+def main():
+    print("\n--- Ejemplo de Casa Rural ---")
+    casa_rural = CasaRural(1, 120, "Vereda El Bosque", 3, 2, 1, 15, 1800)
+    casa_rural.mostrar_informacion()
+
+    print("\n--- Ejemplo de Casa en Conjunto Cerrado ---")
+    casa_cc = CasaConjuntoCerrado(2, 200, "Calle 123 #45-67", 4, 3, 2, 500000, True)
+    casa_cc.mostrar_informacion()
+
+    print("\n--- Ejemplo de Apartaestudio ---")
+    apartaestudio = Apartaestudio(3, 45, "Carrera 80 #25-30", 1, 250000)
+    apartaestudio.mostrar_informacion()
+
+    print("\n--- Ejemplo de Oficina ---")
+    oficina = Oficina(4, 80, "Avenida Principal #10-20", False, True)
+    oficina.mostrar_informacion()
+
+if __name__ == "__main__":
+    main()
+
