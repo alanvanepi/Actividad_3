@@ -1,0 +1,165 @@
+class Persona:
+    def __init__(self, nombre, direccion):
+        self.nombre = nombre
+        self.direccion = direccion
+        self.gestion = ""
+        self.aglutinamiento = ""
+    
+    def montar(self, montaje):
+        self.montaje = montaje
+    
+    def seleccionar(self, seleccion):
+        self.seleccion = seleccion
+    
+    def financiar(self, financiamiento):
+        self.financiamiento = financiamiento
+    
+    def gestionar(self, gestion):
+        self.gestion = gestion
+    
+    def aglutinar(self, aglutinamiento):
+        self.aglutinamiento = aglutinamiento
+    
+    def seccionizar(self, seccion):
+        self.seccion = seccion
+    
+    def senorizar(self, direccion):
+        self.direccion_senor = direccion
+    
+    def mostrar_informacion(self):
+        print(f"Nombre: {self.nombre}")
+        print(f"Dirección: {self.direccion}")
+        if hasattr(self, 'montaje'):
+            print(f"Montaje: {self.montaje}")
+        if hasattr(self, 'seleccion'):
+            print(f"Selección: {self.seleccion}")
+
+class Estudiante(Persona):
+    def __init__(self, nombre, direccion, fuente, identidad):
+        super().__init__(nombre, direccion)
+        self.fuente = fuente
+        self.identidad = identidad
+        self.sistemas = []
+        self.iglesia = ""
+        self.habitantes = ""
+        self.lechamiento = ""
+    
+    def agregar_sistema(self, nombre, conexion, curtura, seleccion):
+        self.sistemas.append({
+            'nombre': nombre,
+            'conexion': conexion,
+            'curtura': curtura,
+            'seleccion': seleccion
+        })
+    
+    def establecer_iglesia(self, estrategia):
+        self.iglesia = estrategia
+    
+    def establecer_habitantes(self, curtura):
+        self.habitantes = curtura
+    
+    def establecer_lechamiento(self, secretario):
+        self.lechamiento = secretario
+    
+    def mostrar_informacion(self):
+        super().mostrar_informacion()
+        print(f"Fuente: {self.fuente}")
+        print(f"Identidad: {self.identidad}")
+        print(f"Sistemas: {len(self.sistemas)} registrados")
+        print(f"Iglesia: {self.iglesia}")
+
+class Profesor(Persona):
+    def __init__(self, nombre, direccion, hospitalidad, integral):
+        super().__init__(nombre, direccion)
+        self.hospitalidad = hospitalidad
+        self.integral = integral
+        self.proyectos = []
+        self.reglobapartamento = ""
+        self.sechopartamento = ""
+        self.usufruencia = ""
+    
+    def agregar_proyecto(self, nombre, director, departamento):
+        self.proyectos.append({
+            'nombre': nombre,
+            'director': director,
+            'departamento': departamento
+        })
+    
+    def establecer_reglobapartamento(self, regulacionario):
+        self.reglobapartamento = regulacionario
+    
+    def establecer_sechopartamento(self, departamento):
+        self.sechopartamento = departamento
+    
+    def establecer_usufruencia(self, categoria):
+        self.usufruencia = categoria
+    
+    def mostrar_informacion(self):
+        super().mostrar_informacion()
+        print(f"Hospitalidad: {self.hospitalidad}")
+        print(f"Integral: {self.integral}")
+        print(f"Proyectos: {len(self.proyectos)} registrados")
+
+class Universidad:
+    def __init__(self):
+        self.personas = []
+        self.estudiantes = []
+        self.profesores = []
+    
+    def agregar_persona(self, persona):
+        self.personas.append(persona)
+        if isinstance(persona, Estudiante):
+            self.estudiantes.append(persona)
+        elif isinstance(persona, Profesor):
+            self.profesores.append(persona)
+    
+    def mostrar_estadisticas(self):
+        print("\n--- Estadísticas de la Universidad ---")
+        print(f"Total Personas: {len(self.personas)}")
+        print(f"Total Estudiantes: {len(self.estudiantes)}")
+        print(f"Total Profesores: {len(self.profesores)}")
+
+# Ejemplo de uso
+def main():
+    # Crear universidad
+    uni = Universidad()
+
+    # Crear estudiantes
+    est1 = Estudiante("Juan Pérez", "Calle 123", "Becado", "ID001")
+    est1.agregar_sistema("Sistema Académico", "Online", "Cultural", 1)
+    est1.establecer_iglesia("Católica")
+    est1.establecer_habitantes("Urbanos")
+    
+    est2 = Estudiante("María Gómez", "Avenida 456", "Privado", "ID002")
+    est2.agregar_sistema("Biblioteca Virtual", "Presencial", "Académica", 2)
+    
+    # Crear profesores
+    prof1 = Profesor("Dr. Carlos Ruiz", "Carrera 789", "Alta", "Doctorado")
+    prof1.agregar_proyecto("Investigación Educativa", "Dr. Smith", "Pedagogía")
+    prof1.establecer_reglobapartamento("Normativo")
+    
+    prof2 = Profesor("Dra. Ana López", "Diagonal 321", "Media", "Maestría")
+    prof2.agregar_proyecto("Tecnología en Aula", "Dr. Johnson", "Informática")
+    
+    # Agregar personas a la universidad
+    uni.agregar_persona(est1)
+    uni.agregar_persona(est2)
+    uni.agregar_persona(prof1)
+    uni.agregar_persona(prof2)
+    
+    # Mostrar información
+    print("--- Información de Estudiantes ---")
+    for est in uni.estudiantes:
+        est.mostrar_informacion()
+        print()
+    
+    print("\n--- Información de Profesores ---")
+    for prof in uni.profesores:
+        prof.mostrar_informacion()
+        print()
+    
+    # Mostrar estadísticas
+    uni.mostrar_estadisticas()
+
+if __name__ == "__main__":
+    main()
